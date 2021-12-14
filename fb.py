@@ -3,18 +3,21 @@ import pandas as pd
 from compute_black_scholes import *
 import matplotlib.pyplot as plt
 
-aapl = yf.Ticker("AAPL")
+fb = yf.Ticker("FB")
 risk = .01426
 
-time_to_expiry = 32/365
-current_price = 175.74
+time_to_expiry = 31/365
+current_price = 330.34
 
-# chain1 = aapl.options
+# chain1 = fb.options
+# print(chain1)
 
-jan_14th_exp = aapl.option_chain('2022-01-14')
+jan_14th_exp = fb.option_chain('2022-01-14')
 
-# combine all dataframes into a single dataframe
+# # combine all dataframes into a single dataframe
 df = pd.concat(jan_14th_exp)
+
+df.to_csv('fb.csv')
 
 implied_vol = df['impliedVolatility']
 
@@ -25,7 +28,7 @@ bid = df['bid']
 ask = df['ask']
 
 avg = []
-for i in range(42):
+for i in range(40):
     temp = bid[i] + ask[i]
     avg = bid/2
 
@@ -48,9 +51,9 @@ difference = price_arr - empirical_prices
 
 # assigning x and y coordinates
 
-strikes = strike_arr[:42]
-emp_prices = empirical_prices[:42]
-act_prices = price_arr[:42]
+strikes = strike_arr[:40]
+emp_prices = empirical_prices[:40]
+act_prices = price_arr[:40]
 # plot_diffs = difference
 
 
@@ -68,7 +71,7 @@ plt.ylabel('Option price')
 plt.title("Strike prices vs Options price")
 
 plot2 = plt.figure(2)
-plt.plot(strikes, difference[:42], color = 'red')
+plt.plot(strikes, difference[:40], color = 'red')
 
 plt.xlabel('Strike Price')
 plt.ylabel('Difference in Predicted Option Price and Actual Option Price')
