@@ -20,7 +20,7 @@ df = pd.concat(jan_14th_exp)
 implied_vol = df['impliedVolatility']
 strike = df['strike']
 
-options price
+options_prices = df['lastPrice']
 
 
 print(implied_vol)
