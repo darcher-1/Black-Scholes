@@ -1,14 +1,17 @@
-import math 
+import numpy as np
+from scipy.stats import norm
 
-def compute(S_0, X, r, T, sig):
-    C_0 = S*math.normal(D1(S_0, X, r, T, sig)) - X*math.topower(math.e, -rT)*math.normal(D2(S_0, X, r, T, sig))
-    return C_0 
-    
-    
-def D1(S, X, r, T, sig):
-    result = (math.ln(S/X) + (r + math.square(sig)/2)*T)/sig*math.sqrt(T)
-    return  result
-def D2(S, X, r, T, sig):
-    result = (math.ln(S/X) + (r - math.square(sig)/2)*T)/sig*math.sqrt(T)
-    return result
+N = norm.cdf
+
+#computing black scholes for calls 
+def BS_CALL(S, K, T, r, sigma):
+    d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+    return S * N(d1) - K * np.exp(-r*T)* N(d2)
+
+#computing black scholes for puts 
+def BS_PUT(S, K, T, r, sigma):
+    d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
+    d2 = d1 - sigma* np.sqrt(T)
+    return K*np.exp(-r*T)*N(-d2) - S*N(-d1)
     
